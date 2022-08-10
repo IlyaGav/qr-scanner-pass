@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Web", "QRScannerPass.Web\QRScannerPass.Web.csproj", "{A6D20143-4A7C-4562-9D46-8B429ED50617}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Core", "QRScannerPass.Core\QRScannerPass.Core.csproj", "{DD303C11-E57E-4382-B8D6-A46EF41F3EB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Data", "QRScannerPass.Data\QRScannerPass.Data.csproj", "{9ACE9A99-FD0C-48F5-8F13-07C04285FC7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Config", "QRScannerPass.Config\QRScannerPass.Config.csproj", "{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6D20143-4A7C-4562-9D46-8B429ED50617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6D20143-4A7C-4562-9D46-8B429ED50617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6D20143-4A7C-4562-9D46-8B429ED50617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6D20143-4A7C-4562-9D46-8B429ED50617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD303C11-E57E-4382-B8D6-A46EF41F3EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD303C11-E57E-4382-B8D6-A46EF41F3EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD303C11-E57E-4382-B8D6-A46EF41F3EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD303C11-E57E-4382-B8D6-A46EF41F3EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACE9A99-FD0C-48F5-8F13-07C04285FC7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACE9A99-FD0C-48F5-8F13-07C04285FC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACE9A99-FD0C-48F5-8F13-07C04285FC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACE9A99-FD0C-48F5-8F13-07C04285FC7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D8D9F97-D2F5-465A-8F37-840A734B29B0}
+	EndGlobalSection
+EndGlobal

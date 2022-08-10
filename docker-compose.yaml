@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  frontend:
+    image: ilyagav/qr-code-scanner-access-frontend:latest
+    container_name: frontend
+    hostname: "{{.Node.Hostname}}"
+    ports:
+        - target: 4200
+          published: 4200
+          protocol: tcp
+          mode: host
+
+  api:
+    image: ilyagav/qr-code-scanner-access-backend:latest
+    container_name: api
+    hostname: "{{.Node.Hostname}}"
+    depends_on:
+      - postgres-api
+    ports:
+        - target: 80
+          published: 80
+          protocol: tcp
+          mode: host
+            
+  postgres-api:
+    image: postgres:latest
+    container_name: postgres-api
+    restart: always
+    environment:
+      POSTGRES_DB: Access
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: 1l&h22Fr!oO1
+    ports:
+        - target: 5432
+          published: 5432
+          protocol: tcp
+          mode: host
+
+  bd-adminer:
+    image: adminer:latest
+    container_name: bd-adminer
+    restart: always
+    ports:
+        - target: 8080
+          published: 4321
+          protocol: tcp
+          mode: host

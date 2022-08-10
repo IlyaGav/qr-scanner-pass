@@ -1,0 +1,42 @@
+:host {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+:host ::ng-deep canvas {
+  width: auto !important;
+}
+
+.scan-region {
+  border-radius: 30px;
+  outline: rgba(0, 0, 0, .25) solid 50vmax;
+
+  position: absolute;
+  pointer-events: none;
+  transform: scaleX(-1);
+  width: 250px;
+  height: 250px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.toggle-camera {
+
+}
+
+.actions-container {
+  position: fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
