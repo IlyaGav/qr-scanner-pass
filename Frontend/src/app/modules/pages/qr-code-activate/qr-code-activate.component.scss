@@ -5,17 +5,21 @@
   position: relative;
 }
 
-:host ::ng-deep canvas {
+:host ::ng-deep video {
   width: auto !important;
+  height: 100% !important;
+
+  overflow: hidden;
 }
 
 .scan-region {
-  border-radius: 30px;
-  outline: rgba(0, 0, 0, .25) solid 50vmax;
+  border-radius: 10%;
+  -webkit-border-radius: 10%;
+  -moz-border-radius: 10%;
+  outline: rgba(0, 0, 0, .25)  80vmax;
+  overflow: hidden;
 
-  position: absolute;
-  pointer-events: none;
-  transform: scaleX(-1);
+  position: fixed;
   width: 250px;
   height: 250px;
   margin: auto;
@@ -23,10 +27,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-.toggle-camera {
-
 }
 
 .actions-container {
@@ -39,4 +39,32 @@
   display: flex;
   justify-content: center;
   gap: 15px;
+}
+
+.color-view {
+  opacity: 0.2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.setting-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  flex-flow: column;
+  align-items: end;
+}
+
+.scanner-svg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
 }

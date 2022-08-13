@@ -1,0 +1,45 @@
+<table *ngIf="(dataSource?.length ?? 0) > 0" [dataSource]="dataSource" mat-table>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Название</th>
+    <td mat-cell *matCellDef="let element">{{element['name']}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="code">
+    <th mat-header-cell *matHeaderCellDef>Код</th>
+    <td mat-cell *matCellDef="let element">{{element['code']}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef>Состояние</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="isMobile; else desktop">
+        <mat-icon *ngIf="element['state'] === states.Activated" style="color: green">
+          check_circle_outline
+        </mat-icon>
+
+        <mat-icon *ngIf="element['state'] === states.Inactivated" style="color: red">
+          highlight_off
+        </mat-icon>
+      </ng-container>
+
+      <ng-template #desktop>
+        {{element['state'] | ticketState}}
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="createDate">
+    <th mat-header-cell *matHeaderCellDef>Дата создания</th>
+    <td mat-cell *matCellDef="let element">{{element['createDate'] | date: 'short'}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns;" (click)="click(row)" style="cursor: pointer;"></tr>
+</table>
+
+<div *ngIf="(dataSource?.length ?? 0) === 0" class="list-empty">
+  Не найдено билетов, удовлетворяющих указанным параметрам фильтрации.
+  <br>
+  Отредактируйте или сбросьте фильтры.
+</div>

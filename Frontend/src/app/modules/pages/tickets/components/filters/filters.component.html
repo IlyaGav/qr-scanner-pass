@@ -1,0 +1,84 @@
+<ng-container *ngIf="form.controls as controls" [formGroup]="form">
+
+  <div class="filter-item-container">
+
+    <!--Название-->
+    <div class="filter-item">
+      <mat-form-field *ngIf="controls.name as control">
+        <mat-label>Название</mat-label>
+        <input [formControl]="control" matInput autocomplete="off">
+
+        <div matSuffix class="suffix-offset"></div>
+
+        <ng-container *ngTemplateOutlet="closeIcon;context: {control: control}"></ng-container>
+
+      </mat-form-field>
+    </div>
+
+    <!--Код-->
+    <div class="filter-item">
+      <mat-form-field *ngIf="controls.code as control">
+        <mat-label>Код</mat-label>
+        <input [formControl]="control" matInput autocomplete="off">
+
+        <div matSuffix class="suffix-offset"></div>
+
+        <ng-container *ngTemplateOutlet="closeIcon;context: {control: control}"></ng-container>
+
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="filter-item-container">
+
+    <!--Состояние-->
+    <div class="filter-item">
+      <mat-form-field *ngIf="controls.state as control">
+        <mat-label>Состояние</mat-label>
+
+        <mat-select [formControl]="$any(control)">
+          <mat-option [value]="undefined">--Не выбрано--</mat-option>
+          <mat-option *ngFor="let option of states" [value]="option">
+            {{option | ticketState}}
+          </mat-option>
+        </mat-select>
+
+        <div matSuffix class="suffix-offset"></div>
+
+        <ng-container *ngTemplateOutlet="closeIcon;context: {control: control}"></ng-container>
+      </mat-form-field>
+    </div>
+
+    <!--Период (С - По)-->
+    <div class="filter-item">
+      <mat-form-field>
+        <mat-label>Период</mat-label>
+
+        <app-mat-date-range #dateRange
+                            [from]="controls.from!"
+                            [to]="controls.to!">
+        </app-mat-date-range>
+
+        <mat-icon *ngIf="(controls.from?.value || controls.to?.value)"
+                  (click)="controls.from?.setValue(null);controls.to?.setValue(null);$event.stopPropagation()"
+                  class="clear-icon"
+                  matTooltip="Сбросить">
+          close
+        </mat-icon>
+
+        <mat-datepicker-toggle matSuffix [for]="dateRange.rangePicker"></mat-datepicker-toggle>
+
+      </mat-form-field>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #closeIcon let-control="control">
+  <mat-icon *ngIf="control.value && control.enabled"
+            (click)="control.setValue(null);$event.stopPropagation()"
+            class="clear-icon"
+            matTooltip="Сбросить">
+    close
+  </mat-icon>
+</ng-template>

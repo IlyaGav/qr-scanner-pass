@@ -24,5 +24,5 @@ public class AppConfig
 
 public record AppDataConfig
 {
-    public string SqlServer { get; set; }
+    public string ConnectionString { get; set; }
 }

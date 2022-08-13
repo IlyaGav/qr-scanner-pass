@@ -1,36 +1,32 @@
-<!--<ngx-scanner-qrcode #scanner="scanner"-->
-<!--                    (data)="onSuccess($event)"-->
-<!--                    (error)="onError($event)">-->
-<!--</ngx-scanner-qrcode>-->
+<div class="setting-container">
+  <button (click)="openSettings()"
+          mat-icon-button>
+    <mat-icon color="primary">settings</mat-icon>
+  </button>
 
-<!--<quar-scanner #scanner (scanSuccess)="onSuccess($event)" (scanError)="onError($event)" ></quar-scanner>-->
+  <span *ngIf="console" style="margin-top: 5px; color: red;">{{ console | json }}</span>
+</div>
 
 <zxing-scanner #scanner
                (scanSuccess)="onSuccess($event)"
                (scanError)="onError($event)"
-               (camerasFound)="camerasFound($event)"
-               [timeBetweenScans]="100">
+               [delayBetweenScanSuccess]="2000"
+               style="height: 100%;">
 </zxing-scanner>
+
+<img class="scanner-svg" src="../../../../assets/icons/scanner.svg">
 
 <div class="scan-region"></div>
 
 <div *ngIf="!_bottomSheet._openedBottomSheetRef" class="actions-container">
-  <button (click)="toggleCamera()"
-          mat-icon-button>
-    <mat-icon color="primary">autorenew</mat-icon>
-  </button>
 
-  <button (click)="toggleTorch()"
+  <button *ngIf="scanner?.torchCompatible | async"
+          (click)="toggleTorch()"
           mat-icon-button>
     <mat-icon color="primary">highlight</mat-icon>
   </button>
-
 </div>
 
-
-
 <ng-container *ngIf="(success$ | async) !== undefined">
-  <div style="opacity: 0.2; position: absolute;left: 0;top: 0;right: 0;bottom: 0;"
-       [style.background-color]="success$.value ? 'green' : 'red'">
-  </div>
+  <div [style.background-color]="success$.value ? 'green' : 'red'" class="color-view"></div>
 </ng-container>

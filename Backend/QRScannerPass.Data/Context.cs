@@ -7,9 +7,7 @@ namespace QRScannerPass.Data;
 
 public class Context : DbContext
 {
-    public DbSet<User> Users { get; set; }
-
-    public DbSet<QrCode> QrCodes { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
 
     public Context(DbContextOptions<Context> options) : base(options)
     {
@@ -17,22 +15,19 @@ public class Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(builder =>
+        modelBuilder.Entity<Ticket>(builder =>
         {
-            builder.HasKey(u => u.Id);
+            builder.HasKey(u => u.Code);
 
-            builder.HasIndex(u => u.FullName);
-        });
+            builder.HasIndex(u => u.Name);
 
-        modelBuilder.Entity<QrCode>(builder =>
-        {
-            builder.HasKey(q => q.Code);
-
-            builder.HasOne(uq => uq.User)
-                .WithMany()
-                .HasForeignKey(h => h.UserId);
+            builder.HasIndex(u => u.State);
             
-            builder.HasIndex(q => q.UserId).IsUnique();
+            builder.HasIndex(u => u.CreateDate);
+
+            builder.Property(t => t.CreateDate).HasColumnType("timestamp without time zone");
+
+            builder.Property(t => t.State).HasConversion<string>();
         });
 
         base.OnModelCreating(modelBuilder);

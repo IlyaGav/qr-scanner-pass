@@ -1,0 +1,29 @@
+<ng-container>
+
+  <mat-date-range-input [rangePicker]="picker">
+    <input [formControl]="from"
+           (click)="fromPicker.open()"
+           matStartDate
+           autocomplete="off"
+           placeholder="с">
+
+    <input [formControl]="to"
+           (click)="toPicker.open()"
+           matEndDate
+           autocomplete="off"
+           placeholder="по">
+  </mat-date-range-input>
+
+  <mat-date-range-picker #picker [touchUi]="isMobile"></mat-date-range-picker>
+
+  <input [matDatepicker]="fromPicker"
+         (dateChange)="from.setValue($event.value)"
+         hidden>
+  <mat-datepicker #fromPicker [touchUi]="isMobile"></mat-datepicker>
+
+  <input [matDatepicker]="toPicker"
+         (dateChange)="to.setValue($event.value)"
+         hidden>
+  <mat-datepicker #toPicker [touchUi]="isMobile"></mat-datepicker>
+
+</ng-container>

@@ -1,17 +1,26 @@
+using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Logging;
 using QRScannerPass.Config;
 using QRScannerPass.Data;
+using QRScannerPass.Web.Auth;
 using QRScannerPass.Web.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+builder.Services.AddKeycloakAuthentication(builder.Configuration);
 
 builder.Host.ConfigureServices(service =>
 {
+    IdentityModelEventSource.ShowPII = true;
     var config = AppConfig.Init(builder.Configuration);
     service.AddSingleton(config)
-        .ConfigureSqlServer(config.Data.SqlServer)
+        .ConfigureSqlServer(config.Data.ConnectionString)
         .AddHostedService<ApplyDbContextMigrationsHostedService<Context>>()
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 });
@@ -34,8 +43,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();

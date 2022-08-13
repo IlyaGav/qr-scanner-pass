@@ -31,11 +31,11 @@ public class DbContextFactory : IDesignTimeDbContextFactory<Context>
 
         var appConfig = AppConfig.Init(configuration);
 
-        if (appConfig.Data.SqlServer is {Length: > 0} connection)
+        if (appConfig.Data.ConnectionString is {Length: > 0} connection)
         {
             return connection;
         }
 
-        throw new InvalidOperationException($"{nameof(AppConfig.Data)}:{nameof(AppConfig.Data.SqlServer)} is not set");
+        throw new InvalidOperationException($"{nameof(AppConfig.Data)}:{nameof(AppConfig.Data.ConnectionString)} is not set");
     }
 }

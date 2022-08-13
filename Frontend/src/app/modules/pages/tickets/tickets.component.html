@@ -1,0 +1,57 @@
+<mat-expansion-panel expanded="true">
+
+  <mat-expansion-panel-header>
+    <div class="title">Фильтры</div>
+  </mat-expansion-panel-header>
+
+  <ticket-filters [form]="filtersGroup"></ticket-filters>
+
+  <mat-action-row>
+    <button (click)="clearFilter(); search()"
+            class="reset"
+            mat-button>
+      Сбросить
+    </button>
+
+    <!--TODO Badge tooltip-->
+    <button [matBadgeHidden]="isActualFilters"
+            (click)="search()"
+            class="search"
+            matBadge="!"
+            mat-button
+            matBadgeColor="warn"
+            matBadgeDescription="Текущие фильтры не применены">
+      Поиск
+    </button>
+
+  </mat-action-row>
+</mat-expansion-panel>
+
+<mat-card>
+
+  <mat-card-content>
+    <div [ngBusy]="busy">
+
+      <app-ticket-list [dataSource]="dataSource"
+                       [displayColumns]="displayColumns"
+                       (refresh)="refresh()"
+                       style="overflow: auto">
+      </app-ticket-list>
+
+      <mat-paginator [showFirstLastButtons]="true"
+                     [pageSizeOptions]="[5, 10, 20, 50]"
+                     [pageSize]="50"
+                     (page)="refresh()"
+                     [length]="totalCount"
+                     class="paginator">
+      </mat-paginator>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<button (click)="create()" mat-fab style="position: fixed; right: 50px; bottom: 50px;">
+  <mat-icon>
+    add
+  </mat-icon>
+</button>

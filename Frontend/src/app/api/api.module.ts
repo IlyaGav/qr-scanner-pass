@@ -4,8 +4,8 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { QrCodeApiService } from './services/qr-code-api.service';
-import { UserApiService } from './services/user-api.service';
+import { PassApiService } from './services/pass-api.service';
+import { TicketApiService } from './services/ticket-api.service';
 
 /**
  * Module that provides all services and configuration.
@@ -15,8 +15,8 @@ import { UserApiService } from './services/user-api.service';
   exports: [],
   declarations: [],
   providers: [
-    QrCodeApiService,
-    UserApiService,
+    PassApiService,
+    TicketApiService,
     ApiConfiguration
   ],
 })

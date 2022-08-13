@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {QrCodeActivateComponent} from "./modules/pages/qr-code-activate/qr-code-activate.component";
-import {UsersComponent} from "./modules/pages/users/components/users/users.component";
+import {TicketsComponent} from "./modules/pages/tickets/tickets.component";
+import {AuthGuard} from "./modules/auth/auth.guard";
 
 const routes: Routes = [
   {
     path: '',
     component: QrCodeActivateComponent,
-    // loadChildren: ()=> import('./modules/pages/qr-code-activate/qr-code-activate.module').then(m => m.QrCodeActivateModule)
   },
   {
-    path: 'users',
-    component: UsersComponent
+    path: 'tickets',
+    component: TicketsComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
@@ -19,4 +20,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

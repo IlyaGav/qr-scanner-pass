@@ -1,0 +1,9 @@
+:host {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+:host ::ng-deep .mat-date-range-input-start-wrapper, ::ng-deep .mat-date-range-input-end-wrapper {
+  width: 100%;
+  text-align: center;
+}

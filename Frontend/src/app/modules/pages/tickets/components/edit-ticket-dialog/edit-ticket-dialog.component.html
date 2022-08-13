@@ -1,0 +1,50 @@
+<mat-dialog-content style="display: flex; flex-flow: column;  width: 250px; padding-bottom: 10px; overflow-y: hidden">
+
+  <ng-container *ngIf="form.controls as controls">
+
+    <!--QR-код-->
+    <mat-form-field *ngIf="controls.code as control"
+                    [ngClass]="!new ? 'readonly-fields' : ''"
+                    style="flex: 1;">
+      <mat-label>QR-код</mat-label>
+      <input [formControl]="control"
+             [readonly]="!new"
+             matInput autocomplete="off">
+    </mat-form-field>
+
+    <!--Имя-->
+    <mat-form-field *ngIf="controls.name as control" style="flex: 1">
+      <mat-label>Имя</mat-label>
+      <input [formControl]="control"
+             matInput>
+    </mat-form-field>
+
+    <!--Состояние-->
+    <ng-container *ngIf="!new">
+      <mat-form-field *ngIf="controls.state as control">
+        <mat-label>Состояние</mat-label>
+
+        <mat-select [formControl]="control">
+          <mat-option *ngFor="let option of states" [value]="option">
+            {{option | ticketState}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    <!--    <ng-container *ngIf="this.form.controls.id.value">-->
+    <!--      <mat-checkbox *ngIf="controls.activated as control" [formControl]="control!">Активирован</mat-checkbox>-->
+    <!--    </ng-container>-->
+
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions style="justify-content: space-between; flex-flow: column;">
+  <button mat-button color="primary" (click)="save()" style="width: 100%">СОХРАНИТЬ</button>
+  <button *ngIf="!new"
+          mat-button color="warn"
+          (click)="delete()"
+          style="width: 100%">
+    УДАЛИТЬ
+  </button>
+  <button mat-button (click)="cancel()" style="width: 100%">ОТМЕНА</button>
+</mat-dialog-actions>

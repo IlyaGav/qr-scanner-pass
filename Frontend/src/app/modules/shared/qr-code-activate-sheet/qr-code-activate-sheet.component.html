@@ -1,35 +1,36 @@
-<div *ngIf="loading$ | async"
-     style="display: flex; justify-content: center;">
-  <mat-spinner></mat-spinner>
-</div>
+<div [ngBusy]="busy" style="min-height: 50px; margin: auto;">
 
-<ng-container *ngIf="!(loading$ | async)">
-  <ng-container *ngIf="qrCodeInfo as qrInfo">
+  <ng-container>
+    <ng-container *ngIf="ticket as ticket">
+      <ng-container *ngIf="ticket.state">
+        <div>
+          <span>Имя: </span>
+          <b>{{ticket.name}}</b>
+        </div>
 
-    <ng-container *ngIf="qrInfo.state != states.NotFound">
-      <div>
-        <span>Имя: </span>
-        <b>{{qrInfo.userName}}</b>
-      </div>
+        <div>
+          <span>QR-код: </span>
+          <b>{{ticket.code}}</b>
+        </div>
+      </ng-container>
 
-      <div>
-        <span>QR-код: </span>
-        <b>{{qrInfo.qrCode}}</b>
-      </div>
-    </ng-container>
+      <ng-container *ngIf="!ticket.state">
+        <span style="color: red;">Пользователь не найден!</span>
+        <div>
+          <span>QR-код: </span>
+          <b>{{ticket.code}}</b>
+        </div>
+      </ng-container>
 
-    <ng-container *ngIf="qrInfo.state == states.NotFound">
-      <span style="color: red;">Пользователь не найден!</span>
-    </ng-container>
+      <ng-container *ngIf="ticket.state == states.Activated">
+        <span style="color: red;">Пользователь уже активирован!</span>
+      </ng-container>
 
-    <ng-container *ngIf="qrInfo.state == states.Activated">
-      <span style="color: red;">Пользователь уже активирован!</span>
-    </ng-container>
+      <ng-container *ngIf="ticket.state == states.Inactivated">
+        <button style="z-index: 1000;" mat-flat-button color="primary" (click)="active()">Активировать</button>
+      </ng-container>
 
-    <ng-container *ngIf="qrInfo.state == states.NotActivated">
-      <button style="z-index: 1000;" mat-flat-button color="primary" (click)="active()">Активировать</button>
     </ng-container>
 
   </ng-container>
-
-</ng-container>
+</div>

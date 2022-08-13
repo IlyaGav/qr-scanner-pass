@@ -1,0 +1,27 @@
+<mat-dialog-content *ngIf="form.controls as controls">
+
+  <mat-form-field *ngIf="controls.width as control" appearance="outline">
+    <mat-label>Ширина</mat-label>
+    <input matInput [formControl]="control">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="controls.height as control" appearance="outline">
+    <mat-label>Высота</mat-label>
+    <input matInput [formControl]="control">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="controls.frameRate as control" appearance="outline">
+    <mat-label>Частота кадров</mat-label>
+    <input matInput [formControl]="control">
+  </mat-form-field>
+
+  <mat-checkbox *ngIf="controls.useRearCamera as control" [formControl]="control" style="margin-bottom: 8px;">
+    Использовать тыловую камеру
+  </mat-checkbox>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="save()" style="width: 100%">СОХРАНИТЬ</button>
+  <button mat-button [mat-dialog-close]="undefined" style="width: 100%">ОТМЕНА</button>
+</mat-dialog-actions>

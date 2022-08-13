@@ -1,0 +1,15 @@
+:host {
+  position: relative;
+}
+
+.readonly-fields {
+  color: grey;
+
+  ::ng-deep .mat-form-field-outline {
+    background-color: hsl(0, 2%, 95%);
+  }
+}
+
+.readonly {
+  pointer-events: none;
+}

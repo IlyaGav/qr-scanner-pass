@@ -1,2 +1,2 @@
-export { QrCodeApiService } from './services/qr-code-api.service';
-export { UserApiService } from './services/user-api.service';
+export { PassApiService } from './services/pass-api.service';
+export { TicketApiService } from './services/ticket-api.service';

@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {QrCodeApiService} from "../../../api/services/qr-code-api.service";
-import {BehaviorSubject, tap} from "rxjs";
-import {QrCodeInfo, State} from "../../pages/qr-code-activate/qr-code-activate.component";
+import {TicketApiService} from "../../../api/services/ticket-api.service";
+import {Ticket} from "../../../api/models/ticket";
+import {TicketState} from "../../../api/models";
+import {PassApiService} from "../../../api/services/pass-api.service";
 
 @Component({
   selector: 'app-qr-code-activate-sheet',
@@ -13,45 +14,39 @@ export class QrCodeActivateSheetComponent implements OnInit {
 
   @Output() success = new EventEmitter<boolean>();
 
-  states = State;
+  states = TicketState;
 
-  qrCodeInfo: QrCodeInfo | undefined;
+  ticket: Ticket | undefined;
 
-  loading$ = new BehaviorSubject<boolean>(false);
+  busy: any;
 
   constructor(private _bottomSheetRef: MatBottomSheetRef<QrCodeActivateSheetComponent>,
               @Inject(MAT_BOTTOM_SHEET_DATA) private code: string,
-              private qrCodeApiService: QrCodeApiService,
+              private ticketApiService: TicketApiService,
+              private passApiService: PassApiService,
               private cdr: ChangeDetectorRef) {
-    this.loading$.next(true);
 
-    this.qrCodeApiService.get({code: code})
+    this.busy = this.ticketApiService.get({code: code})
       .subscribe({
-      next: qr => {
-        this.qrCodeInfo = {
-          qrCode: qr.code ?? code,
-          userName: qr.fullName ?? '',
-          state: qr.activated ? State.Activated : State.NotActivated
-        };
+        next: ticket => {
+          this.ticket = ticket;
 
-        this.success.next(!qr.activated ?? false)
-        this.loading$.next(false);
-        this.cdr.markForCheck();
-      },
-      error: err => {
-        console.log('err', err);
+          this.success.next(ticket.state === TicketState.Inactivated)
+          this.cdr.markForCheck();
+        },
+        error: err => {
+          console.log('err', err);
 
-        this.qrCodeInfo = {
-          qrCode: code,
-          userName: undefined,
-          state: State.NotFound
-        };
+          this.ticket = {
+            code: code,
+            name: undefined,
+            // state: State.NotFound
+          };
 
-        this.success.next(false)
-        this.loading$.next(false);
-        this.cdr.markForCheck();
-      }
-    });
+          this.success.next(false)
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -59,25 +54,20 @@ export class QrCodeActivateSheetComponent implements OnInit {
   }
 
   active() {
-    if (!this.qrCodeInfo) {
+    if (!this.ticket) {
       return;
     }
 
-    this.loading$.next(true)
-
-    this.qrCodeApiService.activate({code: this.qrCodeInfo.qrCode!})
+    this.busy = this.passApiService.activate({code: this.ticket?.code!})
       .subscribe({
         next: () => {
           console.log('activate success');
 
-          this.loading$.next(false);
-          this.qrCodeInfo!.state = State.Activated;
           this.cdr.markForCheck();
 
           this._bottomSheetRef.dismiss();
         },
         error: () => {
-          this.loading$.next(false);
           console.log('activate error')
         }
       });

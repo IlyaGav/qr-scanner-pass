@@ -1,10 +1,12 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {NgxScannerQrcodeComponent} from 'ngx-scanner-qrcode';
-import {BehaviorSubject, delay, distinctUntilChanged, first, of, timeout} from "rxjs";
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {BehaviorSubject, catchError, distinctUntilChanged, first, from, of, switchMap, tap} from "rxjs";
 import {filter} from "rxjs/operators";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {QrCodeActivateSheetComponent} from "../../shared/qr-code-activate-sheet/qr-code-activate-sheet.component";
 import {ZXingScannerComponent} from "@zxing/ngx-scanner";
+import {MatDialog} from "@angular/material/dialog";
+import {QrCodeSettingDialogComponent} from "../../shared/qr-code-setting-dialog/qr-code-setting-dialog.component";
+import {QrCodeSettingService} from "../../shared/qr-code-setting-dialog/services/qr-code-setting.service";
 
 export enum State {
   NotFound = 'NotFound',
@@ -27,15 +29,18 @@ export class QrCodeInfo {
 })
 export class QrCodeActivateComponent implements OnInit, AfterViewInit {
 
-  // @ViewChild('scanner') scanner: NgxScannerQrcodeComponent = undefined!;
   @ViewChild('scanner') scanner: ZXingScannerComponent = undefined!;
 
   qr$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   success$: BehaviorSubject<boolean | undefined> = new BehaviorSubject<boolean | undefined>(undefined);
-  private cameras: MediaDeviceInfo[] = [];
 
-  constructor(public _bottomSheet: MatBottomSheet) {
+  console: any = '';
+
+  constructor(public _bottomSheet: MatBottomSheet,
+              private dialog: MatDialog,
+              private qrCodeSettingService: QrCodeSettingService,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -70,6 +75,59 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
       });
   }
 
+  ngAfterViewInit(): void {
+
+    this.qrCodeSettingService.setting$
+      .pipe(
+        switchMap(setting => from(navigator.mediaDevices.enumerateDevices())
+          .pipe(
+            switchMap(devices =>
+              from(navigator.mediaDevices.getUserMedia({
+                  video: {
+                    width: {
+                      ideal: setting.width
+                    },
+                    height: {
+                      ideal: setting.height
+                    },
+                    facingMode: {
+                      ideal: setting.useRearCamera ? 'environment' : 'user'
+                    },
+                    frameRate: {
+                      ideal: setting.frameRate
+                    }
+                  }
+                })
+              )
+                .pipe(
+                  tap(stream => {
+                    const cap = stream.getVideoTracks()?.[0].getCapabilities();
+
+                    this.console = {
+                      height: cap.height?.max,
+                      width: cap.width?.max,
+                      frameRate: cap.frameRate?.max
+                    }
+                  }),
+                  switchMap(stream => devices.filter(d => d.deviceId == stream.getVideoTracks()?.[0].getCapabilities().deviceId)),
+                  catchError(err => {
+                    this.console = 'error';
+                    console.log('error');
+                    this.console = err;
+                    return of(undefined)
+                  }),
+                )
+            )
+          )
+        )
+      )
+      .subscribe((device) => {
+        console.log('device', device)
+        this.scanner.device = device;
+        this.cdr.markForCheck();
+      });
+  }
+
   onSuccess(qr: string) {
     console.log('qr', qr)
     this.qr$.next(qr);
@@ -79,29 +137,30 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
     console.log($event);
   }
 
-  toggleCamera() {
-    if (this.scanner.hasDevices) {
-      const indexOf = this.cameras.indexOf(this.scanner.device!) + 1;
-
-      if (indexOf >= this.cameras.length) {
-        this.scanner.device = this.cameras[0];
-        return;
-      }
-
-      this.scanner.device = this.cameras[indexOf];
-    }
+  openSettings() {
+    this.dialog.open(QrCodeSettingDialogComponent);
   }
 
   toggleTorch() {
     this.scanner.torch = !this.scanner.torch;
   }
 
-  ngAfterViewInit(): void {
-    // TODO FOR TEST
-    // this.scanner?.toggleCamera();
-  }
+  // camerasFound($event: MediaDeviceInfo[]) {
+  //
+  //   console.log('camerasFound', $event)
+  //   // this.cameras = $event ?? [];
+  // }
 
-  camerasFound($event: MediaDeviceInfo[]) {
-    this.cameras = $event ?? [];
-  }
+  // toggleCamera() {
+  //   if (this.scanner.hasDevices) {
+  //     const indexOf = this.cameras.indexOf(this.scanner.device!) + 1;
+  //
+  //     if (indexOf >= this.cameras.length) {
+  //       this.scanner.device = this.cameras[0];
+  //       return;
+  //     }
+  //
+  //     this.scanner.device = this.cameras[indexOf];
+  //   }
+  // }
 }
