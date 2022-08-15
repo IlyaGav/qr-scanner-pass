@@ -8,6 +8,7 @@ import {FindTicketRequest} from "../../../api/models/find-ticket-request";
 import {Ticket} from "../../../api/models/ticket";
 import {distinctUntilChanged} from "rxjs";
 import {EditTicketDialogComponent} from "./components/edit-ticket-dialog/edit-ticket-dialog.component";
+import {IsMobileService} from "../../shared/services/is-mobile.service";
 
 @Component({
   selector: 'app-tickets',
@@ -18,6 +19,10 @@ export class TicketsComponent implements OnInit {
 
   get isActualFilters() {
     return this._isActualFilters;
+  }
+
+  get isMobile() {
+    return IsMobileService.isMobile;
   }
 
   dataSource: Ticket[] = [];
@@ -123,7 +128,11 @@ export class TicketsComponent implements OnInit {
   }
 
   create() {
-    this.dialog.open(EditTicketDialogComponent).afterClosed()
+    this.dialog.open(EditTicketDialogComponent, {
+      width: this.isMobile ? '100%' : '',
+      maxWidth: this.isMobile ? '90%' : '',
+      minWidth: this.isMobile ? '' : '600px',
+    }).afterClosed()
       .subscribe(result => result && this.refresh());
   }
 

@@ -1,3 +1,5 @@
+$mobile-width: 550px;
+
 :host {
   position: relative;
 }
@@ -12,4 +14,17 @@
 
 .readonly {
   pointer-events: none;
+}
+
+.actions {
+  padding-right: 16px;
+  justify-content: space-between;
+
+  @media screen and (min-width: $mobile-width) {
+    flex-flow: row-reverse;
+  }
+
+  @media screen and (max-width: $mobile-width) {
+    flex-flow: column;
+  }
 }

@@ -5,7 +5,6 @@ import {Ticket} from "../../../../../api/models/ticket";
 import {TicketApiService} from "../../../../../api/services/ticket-api.service";
 import {EditTicketDialogForm} from "./edit-ticket-dialog.form";
 import {TicketState} from "../../../../../api/models/ticket-state";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-edit-ticket-dialog',

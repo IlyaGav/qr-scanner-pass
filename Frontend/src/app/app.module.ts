@@ -18,6 +18,7 @@ import {MatPaginatorIntl} from "@angular/material/paginator";
 import {NgBusyModule} from "ng-busy";
 import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from "keycloak-angular";
 import {initializeKeycloak} from "./modules/auth/auth.config";
+import {SvgIconRegistryService} from "./modules/shared/services/svg-icon-registry.service";
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import {initializeKeycloak} from "./modules/auth/auth.config";
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(keycloak: KeycloakService) {
+  constructor(keycloak: KeycloakService, iconRegistryService: SvgIconRegistryService) {
     keycloak.keycloakEvents$.subscribe({
       next: (e) => {
         if (e.type == KeycloakEventType.OnTokenExpired) {
@@ -83,5 +84,7 @@ export class AppModule {
         }
       }
     });
+
+    iconRegistryService.registryIcons();
   }
 }

@@ -1,4 +1,4 @@
-<mat-dialog-content style="display: flex; flex-flow: column;  width: 250px; padding-bottom: 10px; overflow-y: hidden">
+<mat-dialog-content style="display: flex; flex-flow: column; padding-bottom: 10px; overflow-y: hidden">
 
   <ng-container *ngIf="form.controls as controls">
 
@@ -7,16 +7,20 @@
                     [ngClass]="!new ? 'readonly-fields' : ''"
                     style="flex: 1;">
       <mat-label>QR-код</mat-label>
-      <input [formControl]="control"
-             [readonly]="!new"
-             matInput autocomplete="off">
+      <textarea [formControl]="control"
+                [readonly]="!new"
+                cdkTextareaAutosize
+                matInput autocomplete="off">
+      </textarea>
     </mat-form-field>
 
     <!--Имя-->
     <mat-form-field *ngIf="controls.name as control" style="flex: 1">
       <mat-label>Имя</mat-label>
-      <input [formControl]="control"
-             matInput>
+      <textarea [formControl]="control"
+                cdkTextareaAutosize
+                matInput>
+      </textarea>
     </mat-form-field>
 
     <!--Состояние-->
@@ -38,7 +42,7 @@
   </ng-container>
 </mat-dialog-content>
 
-<mat-dialog-actions style="justify-content: space-between; flex-flow: column;">
+<mat-dialog-actions class="actions">
   <button mat-button color="primary" (click)="save()" style="width: 100%">СОХРАНИТЬ</button>
   <button *ngIf="!new"
           mat-button color="warn"

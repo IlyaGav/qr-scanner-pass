@@ -42,7 +42,10 @@ export class TicketListComponent implements OnInit {
 
   click(ticket: Ticket) {
     this.dialog.open(EditTicketDialogComponent, {
-      data: ticket
+      data: ticket,
+      width: this.isMobile ? '100%' : '',
+      maxWidth: this.isMobile ? '90%' : '',
+      minWidth: this.isMobile ? '' : '600px',
     }).afterClosed()
       .subscribe(result => result && this.refresh.emit());
   }
