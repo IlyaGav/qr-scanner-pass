@@ -1,13 +1,12 @@
 ﻿# Сборка frontend'а
 FROM node:14-alpine as builder
-ARG NODEENV
 WORKDIR /home/node/app
 
 COPY ./package.json ./package-lock.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build
+RUN npm run build:production
 
 # Финальный контейнер
 FROM nginx:alpine

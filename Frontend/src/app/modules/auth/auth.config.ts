@@ -1,11 +1,12 @@
 import {KeycloakService} from "keycloak-angular";
+import {environment} from "../../../environments/environment";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.init({
     config: {
-      url: 'https://qr-code-scanner-access.ru:8443/',
-      realm: 'qr-code-scanner-pass',
-      clientId: 'angular',
+      url: environment.KEYCLOAK_URL,
+      realm: environment.KEYCLOAK_REALM,
+      clientId: environment.KEYCLOAK_CLIENT_ID
     },
     initOptions: {
       // checkLoginIframe: false,
