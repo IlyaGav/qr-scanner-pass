@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using QRScannerPass.Config;
+using QRScannerPass.Consul.Extensions;
 
 namespace QRScannerPass.Data;
 
@@ -19,15 +20,11 @@ public class DbContextFactory : IDesignTimeDbContextFactory<Context>
 
     private string GetConnectionString()
     {
-        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var consulClient = new ConsulClient(AppConfig.AppId);
 
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true);
-
-        builder.AddEnvironmentVariables();
-
-        var configuration = builder.Build();
+        var configuration = new ConfigurationBuilder()
+            .AddConsul(consulClient)
+            .Build();
 
         var appConfig = AppConfig.Init(configuration);
 

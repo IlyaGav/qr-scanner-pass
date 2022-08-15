@@ -4,6 +4,9 @@ namespace QRScannerPass.Config;
 
 public class AppConfig
 {
+
+    public const string AppId = "qr-code-scanner-pass";
+
     private AppConfig(IConfiguration configuration)
     {
         Data = configuration.GetSection(nameof(Data)).Get<AppDataConfig>();

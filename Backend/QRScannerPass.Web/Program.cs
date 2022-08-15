@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using Microsoft.IdentityModel.Logging;
 using QRScannerPass.Config;
+using QRScannerPass.Consul.Extensions;
 using QRScannerPass.Data;
 using QRScannerPass.Web.Auth;
 using QRScannerPass.Web.Swagger;
@@ -17,13 +17,16 @@ builder.Services.AddKeycloakAuthentication(builder.Configuration);
 
 builder.Host.ConfigureServices(service =>
 {
-    IdentityModelEventSource.ShowPII = true;
+    var consulClient = new ConsulClient(AppConfig.AppId);
+    builder.Configuration.AddConsul(consulClient);
+    
     var config = AppConfig.Init(builder.Configuration);
     service.AddSingleton(config)
         .ConfigureSqlServer(config.Data.ConnectionString)
         .AddHostedService<ApplyDbContextMigrationsHostedService<Context>>()
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

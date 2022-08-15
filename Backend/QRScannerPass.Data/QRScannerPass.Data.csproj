@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\QRScannerPass.Config\QRScannerPass.Config.csproj" />
+      <ProjectReference Include="..\QRScannerPass.Consul.Extensions\QRScannerPass.Consul.Extensions.csproj" />
       <ProjectReference Include="..\QRScannerPass.Core\QRScannerPass.Core.csproj" />
     </ItemGroup>
 

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Data", "QRSca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Config", "QRScannerPass.Config\QRScannerPass.Config.csproj", "{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRScannerPass.Consul.Extensions", "QRScannerPass.Consul.Extensions\QRScannerPass.Consul.Extensions.csproj", "{6CF742F5-7504-4566-8176-2722573A512E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE76CB3A-44CD-4CCE-91FD-CBC05527BC2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF742F5-7504-4566-8176-2722573A512E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF742F5-7504-4566-8176-2722573A512E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF742F5-7504-4566-8176-2722573A512E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF742F5-7504-4566-8176-2722573A512E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
