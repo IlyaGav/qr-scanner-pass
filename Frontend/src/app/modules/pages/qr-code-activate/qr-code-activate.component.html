@@ -1,29 +1,33 @@
-<div class="setting-container">
-  <button (click)="openSettings()"
-          mat-icon-button>
-    <mat-icon color="primary">settings</mat-icon>
-  </button>
-
-  <span *ngIf="console" style="margin-top: 5px; color: red;">{{ console | json }}</span>
-</div>
-
 <zxing-scanner #scanner
                (scanSuccess)="onSuccess($event)"
                (scanError)="onError($event)"
+               (camerasFound)="camerasFound($event)"
+               (deviceChange)="deviceChange($event)"
                [delayBetweenScanSuccess]="2000"
                style="height: 100%;">
 </zxing-scanner>
 
 <img class="scanner-svg" src="../../../../assets/icons/scanner.svg">
 
-<div class="scan-region"></div>
+<mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
+
+<img class="scanner-svg" src="../../../../assets/icons/scanner.svg">
 
 <div *ngIf="!_bottomSheet._openedBottomSheetRef" class="actions-container">
 
   <button *ngIf="scanner?.torchCompatible | async"
           (click)="toggleTorch()"
+          style="width: 50px; height: 50px;"
           mat-icon-button>
-    <mat-icon color="primary">highlight</mat-icon>
+    <mat-icon *ngIf="torchEnable" style="color: white" [svgIcon]="'sun-off'"></mat-icon>
+    <mat-icon *ngIf="!torchEnable" style="color: white" [svgIcon]="'sun'"></mat-icon>
+  </button>
+
+
+  <button (click)="toggleCamera()"
+          style="width: 50px; height: 50px;"
+          mat-icon-button>
+    <mat-icon [svgIcon]="'toggle-camera'"></mat-icon>
   </button>
 </div>
 

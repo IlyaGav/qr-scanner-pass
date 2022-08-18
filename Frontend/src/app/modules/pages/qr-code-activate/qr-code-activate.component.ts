@@ -35,6 +35,8 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
 
   success$: BehaviorSubject<boolean | undefined> = new BehaviorSubject<boolean | undefined>(undefined);
 
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
   console: any = '';
 
   constructor(public _bottomSheet: MatBottomSheet,
@@ -77,55 +79,6 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.qrCodeSettingService.setting$
-      .pipe(
-        switchMap(setting => from(navigator.mediaDevices.enumerateDevices())
-          .pipe(
-            switchMap(devices =>
-              from(navigator.mediaDevices.getUserMedia({
-                  video: {
-                    width: {
-                      ideal: setting.width
-                    },
-                    height: {
-                      ideal: setting.height
-                    },
-                    facingMode: {
-                      ideal: setting.useRearCamera ? 'environment' : 'user'
-                    },
-                    frameRate: {
-                      ideal: setting.frameRate
-                    }
-                  }
-                })
-              )
-                .pipe(
-                  tap(stream => {
-                    const cap = stream.getVideoTracks()?.[0].getCapabilities();
-
-                    this.console = {
-                      height: cap.height?.max,
-                      width: cap.width?.max,
-                      frameRate: cap.frameRate?.max
-                    }
-                  }),
-                  switchMap(stream => devices.filter(d => d.deviceId == stream.getVideoTracks()?.[0].getCapabilities().deviceId)),
-                  catchError(err => {
-                    this.console = 'error';
-                    console.log('error');
-                    this.console = err;
-                    return of(undefined)
-                  }),
-                )
-            )
-          )
-        )
-      )
-      .subscribe((device) => {
-        console.log('device', device)
-        this.scanner.device = device;
-        this.cdr.markForCheck();
-      });
   }
 
   onSuccess(qr: string) {
@@ -141,26 +94,43 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
     this.dialog.open(QrCodeSettingDialogComponent);
   }
 
+  torchEnable: boolean = false;
+
   toggleTorch() {
-    this.scanner.torch = !this.scanner.torch;
+    this.torchEnable = !this.torchEnable;
+    this.scanner.torch = this.torchEnable;
+    console.log('torchEnable', this.torchEnable)
   }
 
-  // camerasFound($event: MediaDeviceInfo[]) {
-  //
-  //   console.log('camerasFound', $event)
-  //   // this.cameras = $event ?? [];
-  // }
+  cameras: MediaDeviceInfo[] = [];
 
-  // toggleCamera() {
-  //   if (this.scanner.hasDevices) {
-  //     const indexOf = this.cameras.indexOf(this.scanner.device!) + 1;
-  //
-  //     if (indexOf >= this.cameras.length) {
-  //       this.scanner.device = this.cameras[0];
-  //       return;
-  //     }
-  //
-  //     this.scanner.device = this.cameras[indexOf];
-  //   }
-  // }
+  camerasFound($event: MediaDeviceInfo[]) {
+    console.log('camerasFound', $event)
+    this.cameras = $event ?? [];
+  }
+
+  toggleCamera() {
+    if (this.scanner.hasDevices) {
+      let indexOf = this.cameras.indexOf(this.scanner.device!) + 1;
+
+      if (indexOf >= this.cameras.length) {
+        indexOf = 0;
+      }
+
+      const device =  this.cameras[indexOf];
+
+      if (!this.scanner.isCurrentDevice(device)) {
+        this.scanner.device = device;
+        this.torchEnable = false;
+        this.scanner.torch = this.torchEnable;
+        console.log('device', this.scanner.device)
+      }
+    }
+  }
+
+  deviceChange(device: MediaDeviceInfo) {
+    console.log('deviceChange', device)
+
+    this.loading$.next(false);
+  }
 }

@@ -23,5 +23,20 @@ export class SvgIconRegistryService {
       'padlock',
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/padlock.svg")
     );
+
+    this.matIconRegistry.addSvgIcon(
+      'toggle-camera',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/toggle-camera.svg")
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      'sun',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/sun.svg")
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      'sun-off',
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/sun-off.svg")
+    );
   }
 }

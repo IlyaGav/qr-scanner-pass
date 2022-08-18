@@ -11,23 +11,25 @@ import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
     QrCodeActivateComponent
   ],
-  imports: [
-    CommonModule,
-    QrCodeActivateRoutingModule,
-    ZXingScannerModule,
-    MatBottomSheetModule,
-    MatIconModule,
-    MatButtonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule
-  ]
+    imports: [
+        CommonModule,
+        QrCodeActivateRoutingModule,
+        ZXingScannerModule,
+        MatBottomSheetModule,
+        MatIconModule,
+        MatButtonModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class QrCodeActivateModule {
 }
