@@ -41,7 +41,6 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
 
   constructor(public _bottomSheet: MatBottomSheet,
               private dialog: MatDialog,
-              private qrCodeSettingService: QrCodeSettingService,
               private cdr: ChangeDetectorRef) {
   }
 
@@ -119,12 +118,14 @@ export class QrCodeActivateComponent implements OnInit, AfterViewInit {
 
       const device =  this.cameras[indexOf];
 
-      if (!this.scanner.isCurrentDevice(device)) {
-        this.scanner.device = device;
-        this.torchEnable = false;
-        this.scanner.torch = this.torchEnable;
-        console.log('device', this.scanner.device)
-      }
+      // if (!this.scanner.isCurrentDevice(device)) {
+      // this.scanner.device = device;
+      this.scanner.device = device;
+      this.loading$.next(true);
+      this.torchEnable = false;
+      this.scanner.torch = this.torchEnable;
+      console.log('device', this.scanner.device)
+      // }
     }
   }
 

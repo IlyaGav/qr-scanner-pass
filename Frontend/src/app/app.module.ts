@@ -19,6 +19,7 @@ import {NgBusyModule} from "ng-busy";
 import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from "keycloak-angular";
 import {initializeKeycloak} from "./modules/auth/auth.config";
 import {SvgIconRegistryService} from "./modules/shared/services/svg-icon-registry.service";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,10 @@ import {SvgIconRegistryService} from "./modules/shared/services/svg-icon-registr
     NgBusyModule.forRoot({
       message: 'Пожалуйста, подождите!',
       disableAnimation: true
+    }),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      progressBar: true
     }),
   ],
   providers: [

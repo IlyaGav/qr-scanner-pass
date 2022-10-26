@@ -4,6 +4,7 @@ import {TicketApiService} from "../../../api/services/ticket-api.service";
 import {Ticket} from "../../../api/models/ticket";
 import {TicketState} from "../../../api/models";
 import {PassApiService} from "../../../api/services/pass-api.service";
+import {NotifierService} from "../services/notifier.service";
 
 @Component({
   selector: 'app-qr-code-activate-sheet',
@@ -24,6 +25,7 @@ export class QrCodeActivateSheetComponent implements OnInit {
               @Inject(MAT_BOTTOM_SHEET_DATA) private code: string,
               private ticketApiService: TicketApiService,
               private passApiService: PassApiService,
+              private notifierService: NotifierService,
               private cdr: ChangeDetectorRef) {
 
     this.busy = this.ticketApiService.get({code: code})

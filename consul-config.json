@@ -1,0 +1,8 @@
+  {
+    "qr-code-scanner-pass/Data/ConnectionString": "Port=5432;Server=postgres-api;Database=Access;UserId=developer;Password=***********",
+    "qr-code-scanner-pass/Keycloak/Audience": "angular",
+    "qr-code-scanner-pass/Keycloak/Domain": "https://qr-code-scanner-access.ru:8443",
+    "qr-code-scanner-pass/Keycloak/Realm": "qr-code-scanner-pass",
+    "qr-code-scanner-pass/Keycloak/RequireHttpsMetadata": true,
+    "qr-code-scanner-pass/Keycloak/ValidateIssuer": true
+  }

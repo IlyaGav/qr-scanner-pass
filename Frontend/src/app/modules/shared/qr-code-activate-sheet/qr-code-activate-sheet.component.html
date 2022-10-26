@@ -1,16 +1,16 @@
-<div [ngBusy]="busy" style="min-height: 50px; margin: auto;">
+<div [ngBusy]="busy" style="min-height: 50px; ">
 
   <ng-container>
     <ng-container *ngIf="ticket as ticket">
       <ng-container *ngIf="ticket.state">
         <div>
-          <span>Имя: </span>
-          <b>{{ticket.name}}</b>
+          <span>QR-код: </span>
+          <b>{{ticket.code}}</b>
         </div>
 
         <div>
-          <span>QR-код: </span>
-          <b>{{ticket.code}}</b>
+          <span>Стоимость: </span>
+          <b>{{ticket.name}}</b>
         </div>
       </ng-container>
 
